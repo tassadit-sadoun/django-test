@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import BusShift, BusStop
-from .forms import BusShiftForm
+
 from .bus_shift_service import update_shift_times
+from .forms import BusShiftForm
+from .models import BusShift, BusStop
+
 
 class BusStopInline(admin.TabularInline):
     model = BusStop

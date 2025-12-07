@@ -1,5 +1,4 @@
 from padam_django.apps.common.management.base import CreateDataBaseCommand
-
 from padam_django.apps.fleet.factories import BusFactory
 
 
