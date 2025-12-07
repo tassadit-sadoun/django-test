@@ -13,15 +13,9 @@ docker-sh: ## Access the docker container shell
 dokcer-migrate: ## Apply database migrations inside the container
 	docker exec -it padam-web python manage.py migrate
 
-docker
-
 # Create a Django superuser inside the container
 docker-superuser: ## Create a superuser for the Django admin
 	docker exec -it padam-web python manage.py createsuperuser
-
-# Run the Django dev server inside the container
-docker-run: ## Run the test server inside the container
-	docker exec -it padam-web python manage.py runserver_plus 0.0.0.0:8000
 
 # Create sample data inside the container
 docker-create-data: ## Create sample data
@@ -37,5 +31,5 @@ docker-user_test: ##
 
 # Run tests inside the container
 docker-test: ## Run tests inside the container
-docker exec -it padam-web python manage.py test
+	docker exec -it padam-web python manage.py test
 
