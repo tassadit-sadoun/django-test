@@ -1,14 +1,51 @@
-# Solution
+# Solution: Lancer et tester le projet Django avec Docker
 
-## Lancer le projet avec Docker et Makefile
+## Table des matières
+
+1. [Lancer le projet avec Docker et Makefile](#lancer-le-projet-avec-docker-et-makefile)
+2. [Management commands utiles](#management-commands-utiles)
+3. [Tests unitaires](#tests-unitaires)
+4. [Remarques](#remarques-importantes)
+5. [Résumé des workflows](#résumé-des-workflows)
+
+---
+
+## 1. Lancer le projet avec Docker et Makefile
 
 Le projet est configuré pour s’exécuter avec **Docker** et une base **PostgreSQL**.  
 Des scripts `Makefile` facilitent les opérations courantes pour le développement et les tests.
 
-### Commandes Docker / Makefile
+### Commandes à exécuter:
 
-- **Démarrer les conteneurs Docker**  
+1 - **Démarrer les conteneurs Docker**  
   `make docker-up`
+
+2 - **Accéder à l’interface Django admin**  
+  [Django admin](http://127.0.0.1:8001/admin)
+
+3 - **Créer des données d’exemple**  
+  `make docker-create-data`
+
+4 - **Créer un superutilisateur Django**  
+  `make docker-superuser`
+
+5 - **Assigner les permissions aux utilisateurs non-driver**  
+  `make docker-assign-perms`
+
+6 - **Créer un utilisateur de test**  
+  `make docker-user-test`
+
+7- **Se connecter avec l’utilisateur de test** :
+
+  - `username = "moniquemasson"`  
+  - `password = "test12356"`
+
+8 - **Exécuter les tests unitaires**  
+  `make docker-test`
+
+---
+
+## 2. Management commands utiles
 
 - **Arrêter les conteneurs Docker**  
   `make docker-down`
@@ -19,33 +56,18 @@ Des scripts `Makefile` facilitent les opérations courantes pour le développeme
 - **Appliquer les migrations de la base de données**  
   `make docker-migrate`
 
-- **Créer des données d’exemple**  
-  `make docker-create-data`
+---
 
-- **Créer un superutilisateur Django**  
-  `make docker-superuser`
+## 3. Tests unitaires
 
-- **Lancer le serveur de développement Django**  
-  `make docker-run`
-
-- **Assigner les permissions aux utilisateurs non-driver**  
-  `make docker-assign-perms`
-
-- **Créer un utilisateur de test**  
-  `make docker-user-test`
-
-- **Exécuter les tests unitaires**  
-  `make docker-test`
+- Les tests sont contenus dans `test_bus_shift_service.py`.  
+- Ils couvrent la validation métier et la logique de calcul des temps pour BusShift et BusStop.  
+- Les tests sont isolés et utilisent `setUp` pour créer des entités réutilisables (Bus, Driver, Place).  
+- Représente un exemple clair de tests unitaires pour un service métier.
 
 ---
 
-## Management commands utiles
-
-### update_non_drivers.py
-
-- Configure tous les utilisateurs **non-driver** pour qu’ils puissent gérer les **BusShift** et **BusStop** dans l’interface Django admin.
-- Tous les utilisateurs non-driver deviennent `staff`.
-- Ils peuvent **créer, modifier et consulter** les trajets et arrêts depuis l’admin.
+## 4. Remarques
 
 ### create_test_user.py
 
@@ -56,13 +78,11 @@ Des scripts `Makefile` facilitent les opérations courantes pour le développeme
 
 ---
 
-## Tests unitaires
+## 5. Résumé des workflows
 
-**Fichier :** `test_bus_shift_service.py`
-
-- Les tests couvrent à la fois :  
-  - **La validation métier** (nombre minimum d’arrêts, chevauchement de trajets)  
-  - **La logique de calcul des temps** (start_time, end_time, duration)
-
-- Les tests sont **isolés**, utilisant `setUp` pour créer des entités réutilisables :  
-  - `Bus`, `Driver`, `Place`
+1. Démarrer les conteneurs Docker → `make docker-up`  
+2. Créer les données et superutilisateur → `make docker-create-data` + `make docker-superuser`  
+3. Assigner les permissions → `make docker-assign-perms`  
+4. Créer et utiliser l’utilisateur de test  
+5. Exécuter les tests → `make docker-test`  
+6. Accéder à l’admin Django → [Django admin](http://127.0.0.1:8001/admin)
