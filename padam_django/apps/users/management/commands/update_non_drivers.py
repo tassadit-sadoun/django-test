@@ -9,8 +9,6 @@ class Command(BaseCommand):
     help = "Met à jour tous les utilisateurs non-driver pour qu'ils puissent accéder aux BusShift dans l'admin"
 
     def handle(self, *args, **options):
-        # Récupérer le modèle BusShift
-        BusShift = apps.get_model('transport', 'BusShift')
 
         # Récupérer les permissions add/change/view
         busshift_perms = Permission.objects.filter(
