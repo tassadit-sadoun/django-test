@@ -7,3 +7,4 @@ class User(AbstractUser):
     def is_driver(self) -> bool:
         """Define if the user is related to a driver."""
         return hasattr(self, 'driver')
+
