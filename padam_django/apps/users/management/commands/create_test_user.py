@@ -9,7 +9,7 @@ class Command(BaseCommand):
     help = "Créer un compte test pour l'évaluateur avec mot de passe connu"
 
     def handle(self, *args, **kwargs):
-        username = "moniquemasson"
+        username = "andreechretien"
         password = "test12356"
 
         user, created = User.objects.get_or_create(username=username)
