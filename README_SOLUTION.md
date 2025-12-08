@@ -29,18 +29,20 @@ Des scripts `Makefile` facilitent les opérations courantes pour le développeme
 4 - **Créer un superutilisateur Django**  
   `make docker-superuser`
 
-5 - **Assigner les permissions aux utilisateurs non-driver**  
-  `make docker-assign-perms`
-
-6 - **Créer un utilisateur de test**  
+5 - **Update un utilisateur de test**  
   `make docker-user-test`
 
-7- **Se connecter avec l’utilisateur de test** :
+6 - **Assigner les permissions aux utilisateurs non-driver**  
+  `make docker-assign-perms`
 
-  - `username = "moniquemasson"`  
+7 - **Se connecter avec l’utilisateur de test** :
+
+  - `username = "andreechretien"`  
   - `password = "test12356"`
 
-8 - **Exécuter les tests unitaires**  
+8 - **Faire les tests sur l'interface admin Django `Add bus shift`**
+
+9 - **Exécuter les tests unitaires**  
   `make docker-test`
 
 ---
@@ -72,8 +74,8 @@ Des scripts `Makefile` facilitent les opérations courantes pour le développeme
 ### create_test_user.py
 
 - Permet de créer ou modifier le mot de passe d’un utilisateur de test.
-- Exemple d’utilisation :  
-  - `username = "moniquemasson"`  
+- Utilisation: choisir un utilisateur de la base de donnée **non driver** par exemple :  
+  - `username = "andreechretien"`  
   - `password = "test12356"`
 
 ---
