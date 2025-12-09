@@ -111,4 +111,4 @@ pre-commit install
 
 ## Utilisation
 - Chaque commit exécutera automatiquement les outils configurés dans .pre-commit-config.yaml.
-- Les corrections automatiques seront appliquées si possible.
+- Les corrections automatiques seront appliquées.
