@@ -7,6 +7,8 @@
 3. [Tests unitaires](#tests-unitaires)
 4. [Remarques](#remarques-importantes)
 5. [Résumé des workflows](#résumé-des-workflows)
+6. [Outils de développement](#outils-de-développement)
+
 
 ---
 
@@ -88,3 +90,25 @@ Des scripts `Makefile` facilitent les opérations courantes pour le développeme
 4. Créer et utiliser l’utilisateur de test  
 5. Exécuter les tests → `make docker-test`  
 6. Accéder à l’admin Django → [Django admin](http://127.0.0.1:8001/admin)
+
+---
+
+# 6 Outils de développement : formatage et linting
+
+Le projet inclut des outils pour garantir la qualité et la cohérence du code :
+
+- **black** : formatage automatique du code Python  
+- **isort** : tri cohérent des imports  
+- **flake8** : vérification du style et détection d’erreurs courantes  
+- **pre-commit** : exécution automatique des hooks avant chaque commit  
+
+## Installation
+
+```bash
+pip install -r dev-requirements.txt
+pre-commit install
+```
+
+## Utilisation
+- Chaque commit exécutera automatiquement les outils configurés dans .pre-commit-config.yaml.
+- Les corrections automatiques seront appliquées si possible.
