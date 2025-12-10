@@ -16,7 +16,7 @@ class BusStopInline(admin.TabularInline):
 class BusShiftAdmin(admin.ModelAdmin):
     form = BusShiftForm
     inlines = [BusStopInline]
-    list_display = ['bus', 'driver', 'status', 'start_time', 'end_time', 'duration']
+    list_display = ['bus', 'driver', 'start_time', 'end_time', 'duration']
 
     @transaction.atomic
     def save_formset(self, request, form, formset, change):

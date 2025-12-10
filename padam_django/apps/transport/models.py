@@ -3,7 +3,6 @@ from django.db import models
 class BusShift(models.Model):
     bus = models.ForeignKey('fleet.Bus', on_delete=models.PROTECT, related_name='shifts')
     driver = models.ForeignKey('fleet.Driver', on_delete=models.PROTECT, related_name='shifts')
-    status = models.CharField(max_length=20, default='Brouillon')
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
     duration = models.DurationField(null=True, blank=True)

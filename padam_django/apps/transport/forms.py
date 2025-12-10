@@ -5,4 +5,4 @@ class BusShiftForm(forms.ModelForm):
 
     class Meta:
         model = BusShift
-        fields = ['bus', 'driver', 'status']
+        fields = ['bus', 'driver']
