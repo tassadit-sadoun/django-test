@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db import transaction
 
 from .bus_shift_service import update_shift_times
 from .forms import BusShiftForm
@@ -17,6 +18,7 @@ class BusShiftAdmin(admin.ModelAdmin):
     inlines = [BusStopInline]
     list_display = ['bus', 'driver', 'status', 'start_time', 'end_time', 'duration']
 
+    @transaction.atomic
     def save_formset(self, request, form, formset, change):
         """
         Sauvegarde des inlines puis calcul automatique des temps du trajet.
