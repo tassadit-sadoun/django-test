@@ -26,7 +26,7 @@ docker-assign-perms: ## Make non-driver users staff and assign BusShift & BusSto
 	docker exec -it padam-web python manage.py update_non_drivers
 
 # Assign permissions to non-driver users inside the container
-docker-user_test: ## 
+docker-user-test: ## 
 	docker exec -it padam-web python manage.py create_test_user
 
 # Run tests inside the container
