@@ -1,12 +1,12 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from datetime import datetime, timedelta
+from datetime import timedelta
+from django.utils import timezone
 
 from padam_django.apps.transport.models import BusShift, BusStop
 from padam_django.apps.fleet.models import Bus, Driver
 from padam_django.apps.geography.models import Place
 from padam_django.apps.users.models import User
-from django.utils import timezone
 
 from ..bus_shift_service import update_shift_times
 
@@ -35,14 +35,47 @@ class UpdateShiftTimesTest(TestCase):
         BusStop.objects.create(
             shift=shift,
             place=self.placeA,
-            time=datetime.now(),
+            time=timezone.now(),
             order=1
         )
 
         with self.assertRaises(ValidationError):
             update_shift_times(shift)
 
+    def test_correct_start_end_duration_with_inverted_order(self):
+        """
+        Test que update_shift_times calcule correctement start/end/duration
+        avec des stops correctement ordonnés.
+        """
+        shift = BusShift.objects.create(bus=self.bus, driver=self.driver)
+        now = timezone.now()  # datetime aware
+
+        stop1 = BusStop.objects.create(
+            shift=shift,
+            place=self.placeA,
+            time=now,
+            order=1  # premier stop
+        )
+
+        stop2 = BusStop.objects.create(
+            shift=shift,
+            place=self.placeB,
+            time=now + timedelta(minutes=30),
+            order=2  # deuxième stop
+        )
+
+        update_shift_times(shift)
+        shift.refresh_from_db()
+
+        self.assertEqual(shift.start_time, stop1.time)
+        self.assertEqual(shift.end_time, stop2.time)
+        self.assertEqual(shift.duration, stop2.time - stop1.time)
+
+
     def test_correct_start_end_duration(self):
+        """
+        Test standard avec stops correctement ordonnés.
+        """
         shift = BusShift.objects.create(bus=self.bus, driver=self.driver)
         now = timezone.now()
 
@@ -50,25 +83,28 @@ class UpdateShiftTimesTest(TestCase):
             shift=shift,
             place=self.placeA,
             time=now,
-            order=2
+            order=1
         )
 
         stop2 = BusStop.objects.create(
             shift=shift,
             place=self.placeB,
             time=now + timedelta(minutes=30),
-            order=1
+            order=2
         )
 
         update_shift_times(shift)
         shift.refresh_from_db()
 
-        self.assertEqual(shift.start_time, stop2.time)
-        self.assertEqual(shift.end_time, stop1.time)
-        self.assertEqual(shift.duration, stop1.time - stop2.time)
+        self.assertEqual(shift.start_time, stop1.time)
+        self.assertEqual(shift.end_time, stop2.time)
+        self.assertEqual(shift.duration, stop2.time - stop1.time)
 
     def test_overlapping_shift_raises_error(self):
-        now = datetime.now()
+        """
+        Test pour vérifier que deux shifts qui se chevauchent déclenchent ValidationError.
+        """
+        now = timezone.now()
 
         shift1 = BusShift.objects.create(bus=self.bus, driver=self.driver)
         BusStop.objects.create(shift=shift1, place=self.placeA, time=now, order=1)
