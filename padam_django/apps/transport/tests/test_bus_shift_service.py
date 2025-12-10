@@ -120,3 +120,30 @@ class UpdateShiftTimesTest(TestCase):
         # shift2 chevauche → doit lever une erreur
         with self.assertRaises(ValidationError):
             update_shift_times(shift2)
+
+    def test_zero_duration_raises_error(self):
+        """
+        Vérifie qu'un trajet avec deux arrêts au même moment
+        lève ValidationError (duration = 0 interdit).
+        """
+        shift = BusShift.objects.create(bus=self.bus, driver=self.driver)
+        now = timezone.now()
+
+        BusStop.objects.create(
+            shift=shift,
+            place=self.placeA,
+            time=now,
+            order=1
+        )
+
+        BusStop.objects.create(
+            shift=shift,
+            place=self.placeB,
+            time=now,  # même datetime
+            order=2
+        )
+
+        with self.assertRaises(ValidationError) as cm:
+            update_shift_times(shift)
+
+        self.assertIn("La fin doit être après le début", str(cm.exception))
