@@ -16,7 +16,6 @@ class BusShiftAdmin(admin.ModelAdmin):
     form = BusShiftForm
     inlines = [BusStopInline]
     list_display = ['bus', 'driver', 'status', 'start_time', 'end_time', 'duration']
-    search_fields = ['bus__licence_plate', 'driver__user__username']
 
     def save_formset(self, request, form, formset, change):
         """
