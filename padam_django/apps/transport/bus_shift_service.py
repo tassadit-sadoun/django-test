@@ -22,7 +22,7 @@ def update_shift_times(shift):
         shift.duration = shift.end_time - shift.start_time
 
         # Validation cohérente
-        if shift.end_time < shift.start_time:
+        if shift.end_time <= shift.start_time:
             raise ValidationError("La fin doit être après le début.")
 
         # Vérification chevauchements bus/driver
